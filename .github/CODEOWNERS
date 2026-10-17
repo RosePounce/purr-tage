@@ -1,0 +1,11 @@
+# Who must review which part of the repository.
+#
+# relay/ is the game's own bug report relay: it runs on the project's
+# Cloudflare account and receives the players' reports. Changes there are the
+# maintainer's alone — see relay/README.md.
+/relay/ @RosePounce
+
+# The pipelines sign and publish the packages, and .github/workflows/
+# relay-guard.yml is what keeps relay/ shut: a pull request must not be able
+# to loosen either one on its own.
+/.github/ @RosePounce

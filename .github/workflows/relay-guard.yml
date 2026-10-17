@@ -1,0 +1,66 @@
+name: Relay guard
+
+# relay/ is the game's own bug report relay: it runs on the maintainer's
+# Cloudflare account and receives the players' reports. Nobody else changes
+# it, so this check fails any pull request or push that touches the folder
+# without coming from the maintainer.
+#
+# It runs on every pull request, not only on those that touch relay/. A check
+# that a ruleset requires must always report: with a `paths:` filter, a pull
+# request that leaves relay/ alone would wait forever for a run that never
+# starts.
+
+on:
+  pull_request:
+  push:
+    branches: ["main", "develop"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  relay-guard:
+    name: Relay guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Refuse changes under relay/
+        env:
+          # Who may change relay/, one login per line.
+          MAINTAINERS: |
+            RosePounce
+          AUTHOR: ${{ github.event.pull_request.user.login || github.actor }}
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+
+          base="$BASE"
+          if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
+            # A brand new branch has no "before": compare with the default one.
+            base="$(git rev-parse "origin/$DEFAULT_BRANCH")"
+          fi
+
+          touched="$(git diff --name-only "$base" "$HEAD" -- relay/ || true)"
+          if [ -z "$touched" ]; then
+            echo "relay/ untouched."
+            exit 0
+          fi
+
+          if printf '%s\n' "$MAINTAINERS" | grep -qxF "$AUTHOR"; then
+            echo "relay/ changed by $AUTHOR, who maintains it."
+            exit 0
+          fi
+
+          echo "::error::relay/ is the game's own bug report relay and only its"
+          echo "::error::maintainer changes it. See relay/README.md. Drop these"
+          echo "::error::files from the change; to try the sending out, deploy"
+          echo "::error::your own relay from your fork and point the game at it"
+          echo "::error::with PURRTAGE_REPORT_URL."
+          printf '%s\n' "$touched" | sed 's/^/  /'
+          exit 1
