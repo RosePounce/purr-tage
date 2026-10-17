@@ -31,6 +31,9 @@ MANIFEST
 #   before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+# …sauf notre recette d'empaquetage, qui est du code source, pas un fichier
+# intermédiaire. Sans cette exception la chaîne d'intégration ne la trouve pas.
+!packaging/*.spec
 
 # Installer logs
 pip-log.txt
@@ -190,6 +193,7 @@ cython_debug/
 #   option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 
+
 # Abstra
 #   Abstra is an AI-powered process automation framework.
 #   Ignore directories containing user credentials, local state, and settings.
@@ -218,3 +222,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Parties sauvegardées et rapports de bogue
+saves/
+
+# Réglages retenus d'un lancement à l'autre (langue…), écrits à côté des
+# sources quand le jeu tourne depuis le dépôt
+preferences.json
+verification/
+
+# Empaquetage
+dist/
+build/
+packaging/icon.png
+packaging/icon.ico
+*.AppImage

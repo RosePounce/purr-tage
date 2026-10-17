@@ -1,0 +1,756 @@
+{
+  "language": {
+    "code": "en",
+    "name": "English"
+  },
+  "app": {
+    "title": "Purr-tage: The Cat War"
+  },
+  "units": {
+    "kitten": {
+      "name": "Kitten",
+      "role": "Worker",
+      "gender": "m",
+      "desc": "Gathers, builds and repairs. Never becomes a soldier."
+    },
+    "scratcher": {
+      "name": "Scratcher",
+      "role": "Melee",
+      "gender": "m",
+      "desc": "Tough, cheap melee soldier."
+    },
+    "spitter": {
+      "name": "Spitter",
+      "role": "Ranged",
+      "gender": "m",
+      "desc": "Spits hairballs from afar. Fragile."
+    },
+    "tomcat": {
+      "name": "Tomcat",
+      "role": "Heavy",
+      "gender": "m",
+      "desc": "Big war cat: soaks up damage and wrecks buildings."
+    }
+  },
+  "buildings": {
+    "basket": {
+      "name": "Royal Basket",
+      "short": "Basket",
+      "gender": "m",
+      "desc": "Heart of the colony: trains Kittens, takes resource drop-offs."
+    },
+    "shed": {
+      "name": "Shed",
+      "gender": "m",
+      "desc": "+5 population slots."
+    },
+    "scratching_post": {
+      "name": "Scratching Post",
+      "short": "Post",
+      "gender": "m",
+      "desc": "Barracks: trains Scratchers and Spitters."
+    },
+    "dojo": {
+      "name": "Dojo",
+      "gender": "m",
+      "desc": "Trains Tomcats and researches upgrades."
+    },
+    "tower": {
+      "name": "Claw Tower",
+      "short": "Tower",
+      "gender": "m",
+      "desc": "Fixed defence that shoots at intruders."
+    },
+    "wall": {
+      "name": "Rampart",
+      "short": "Rampart",
+      "gender": "m",
+      "desc": "A stretch of stone wall. Drag to lay a whole line."
+    }
+  },
+  "upgrades": {
+    "claws": {
+      "name": "Sharpened Claws",
+      "short": "Claws",
+      "desc": "+5 attack for every unit."
+    },
+    "fur": {
+      "name": "Thick Fur",
+      "short": "Fur",
+      "desc": "+2 armour and +15% HP."
+    },
+    "paws": {
+      "name": "Quick Paws",
+      "short": "Paws",
+      "desc": "+20% movement speed."
+    }
+  },
+  "resources": {
+    "kibble": {
+      "name": "Kibble",
+      "short": "Kib."
+    },
+    "wool": {
+      "name": "Wool",
+      "short": "Wool"
+    },
+    "catnip": {
+      "name": "Catnip",
+      "short": "Nip"
+    },
+    "stone": {
+      "name": "Stone",
+      "short": "Stone"
+    }
+  },
+  "difficulties": {
+    "kitten": {
+      "name": "Kitten (easy)"
+    },
+    "tomcat": {
+      "name": "Tomcat (normal)"
+    },
+    "tiger": {
+      "name": "Tiger (hard)"
+    }
+  },
+  "map_sizes": {
+    "64": "small",
+    "96": "medium",
+    "128": "large",
+    "160": "very large"
+  },
+  "teams": {
+    "0": "Whisker Clan",
+    "1": "Chartreux Horde"
+  },
+  "menu": {
+    "title": "PURR-TAGE: THE CAT WAR",
+    "subtitle": "A feline RTS: gather, build, scratch.",
+    "play": "Single player",
+    "lan": "Multiplayer (local network)",
+    "options": "Options",
+    "help": "Help",
+    "quit": "Quit",
+    "goal": "Goal: cut the enemy off from all production — their training buildings and their Kittens.",
+    "footer": "Difficulty: {difficulty}   ·   F2: how to play   ·   F1: the controls",
+    "editor": "Map editor",
+    "map_random": "Map: random, {size}",
+    "map_saved": "Map: {name} ({size})"
+  },
+  "options": {
+    "title": "Options",
+    "difficulty": "Difficulty: {value}",
+    "screen_auto": "Screen: auto",
+    "resolution": "{w} x {h}",
+    "fullscreen": "Fullscreen: {value}",
+    "fog": "Fog of war: {value}",
+    "sound": "Sound: {value}",
+    "edge_scroll": "Edge scrolling: {value}",
+    "cats": "Cats: {value}",
+    "cat_new": "new",
+    "cat_classic": "classic",
+    "language": "Language: {value}",
+    "back": "Back",
+    "yes": "yes",
+    "no": "no",
+    "notes": [
+      "Difficulty only affects the single-player opponent.",
+      "“Screen: auto” fills the screen without wrecking the frame rate.",
+      "Edge scrolling can also be toggled in game with F7.",
+      "The language applies at once and is remembered next time.",
+      "The keys are rebound under “Keys”, AZERTY / QWERTY switch included."
+    ],
+    "keys": "Keys: configure"
+  },
+  "lan": {
+    "title": "Multiplayer — local network",
+    "same_network": "Both computers must be on the same network.",
+    "host": "Host a game",
+    "join": "Join a game",
+    "back": "Back",
+    "manual": "Enter an address",
+    "cancel": "Cancel",
+    "waiting": "Waiting for a player…",
+    "your_address": "Your address: {ip}",
+    "port": "Port: {port}",
+    "will_see_you": "The other machine will see you under “Join”.",
+    "discovery_unavailable": "Discovery unavailable ({error}). Enter the address.",
+    "searching": "Looking for games{dots}",
+    "host_row": "{name}  —  {ip}",
+    "address_field": "Address: {value}",
+    "typing_tip": "Enter to connect · Esc to cancel",
+    "host_name": "{machine}'s cats",
+    "default_host_name": "Cat game",
+    "port_busy": "Cannot open port {port}: {error}",
+    "connecting": "Connecting to {address}…",
+    "cannot_connect": "Connection failed: {error}",
+    "link_lost": "Link lost before the game started.",
+    "version_mismatch": "Different game versions (protocol {theirs} against {ours}).",
+    "bad_map": "The host's map cannot be read: {error}"
+  },
+  "editor": {
+    "name": "Name: {name}",
+    "name_hint": "Click here to name the map",
+    "default_name": "New map",
+    "info": "{size} ({w} x {h})",
+    "unsaved": " · not saved",
+    "hint": "Left click: paint · right click: remove resources · wheel: zoom · middle click: move · Ctrl+wheel on a resource: amount · Ctrl+Z: undo · Ctrl+S: save",
+    "node_info": "{resource}: {amount} (default {default})",
+    "terrains": {
+      "water": "Water",
+      "sand": "Sand",
+      "grass": "Grass",
+      "meadow": "Meadow",
+      "flower": "Flowers"
+    },
+    "base": "Base {team}",
+    "erase": "Eraser",
+    "brush": "Brush: {size}",
+    "new_size": "Size: {size}",
+    "new": "New",
+    "random": "Random",
+    "open": "Open",
+    "save": "Save",
+    "undo": "Undo",
+    "back": "Back",
+    "cancel": "Close",
+    "open_title": "Open a map",
+    "list_row": "{name} — {size}",
+    "list_scroll": "{first} to {last} of {count} · wheel to scroll",
+    "confirm": "Unsaved changes: click again to confirm.",
+    "nothing_to_undo": "Nothing to undo.",
+    "created": "New {size} map.",
+    "opened": "Map “{name}” opened.",
+    "saved": "Map saved: {path}",
+    "no_maps": "No map saved in {folder}.",
+    "load_failed": "Cannot read the map: {error}",
+    "save_failed": "Cannot save the map: {error}",
+    "name_taken": "Another map is already called “{name}”. Pick another name.",
+    "problems": {
+      "bases": "A map needs exactly two bases.",
+      "base_blocked": "A base sits on water, off the map or on a resource.",
+      "bases_overlap": "The two bases overlap.",
+      "not_connected": "The two bases must be joined by land."
+    }
+  },
+  "net": {
+    "desync": "Desynchronised on turn {turn} — the game cannot continue.",
+    "link_lost": "Link to the opponent lost.",
+    "waiting": "Waiting for the opponent…"
+  },
+  "help": {
+    "title": "Controls",
+    "close": "F1 or Esc to close",
+    "sections": [
+      {
+        "title": "Camera",
+        "rows": [
+          [
+            "Arrow keys or {camera}",
+            "move the view"
+          ],
+          [
+            "Mouse at the edge",
+            "move the view"
+          ],
+          [
+            "Middle click + drag",
+            "drag the map"
+          ],
+          [
+            "Wheel / + -",
+            "zoom"
+          ],
+          [
+            "Click the minimap",
+            "jump to a spot"
+          ],
+          [
+            "{center}",
+            "centre on the selection / last alert"
+          ]
+        ]
+      },
+      {
+        "title": "Selection",
+        "rows": [
+          [
+            "Left click",
+            "select"
+          ],
+          [
+            "Drag",
+            "box selection"
+          ],
+          [
+            "Shift + click",
+            "add to / remove from the selection"
+          ],
+          [
+            "Double click",
+            "every cat of that type on screen"
+          ],
+          [
+            "Ctrl + 1..9",
+            "store a group"
+          ],
+          [
+            "1..9",
+            "recall a group (twice: centre on it)"
+          ],
+          [
+            "{idle}",
+            "select an idle Kitten"
+          ]
+        ]
+      },
+      {
+        "title": "Orders",
+        "rows": [
+          [
+            "Right click",
+            "move / gather / attack / build"
+          ],
+          [
+            "Shift + right click",
+            "queue the order"
+          ],
+          [
+            "{attack} then click",
+            "attack-move"
+          ],
+          [
+            "{stop}",
+            "stop"
+          ],
+          [
+            "Right click (building sel.)",
+            "rally point"
+          ]
+        ]
+      },
+      {
+        "title": "Building & production",
+        "rows": [
+          [
+            "Kitten selected",
+            "build buttons ({buildings})"
+          ],
+          [
+            "Shift while placing",
+            "place several buildings in a row"
+          ],
+          [
+            "Drag (Rampart)",
+            "lay a whole line of ramparts"
+          ],
+          [
+            "Tower selected",
+            "{level_up} to go up a level (up to 3)"
+          ],
+          [
+            "Basket / Post / Dojo",
+            "{units} to train"
+          ],
+          [
+            "Dojo",
+            "{upgrades} for the upgrades"
+          ]
+        ]
+      },
+      {
+        "title": "Local network",
+        "rows": [
+          [
+            "“Multiplayer” menu",
+            "host or join a game"
+          ],
+          [
+            "Host",
+            "shows your address; the other machine finds you"
+          ],
+          [
+            "Join",
+            "lists the games, or type an address"
+          ],
+          [
+            "Port",
+            "50507 over TCP, 50508 over UDP for the broadcast"
+          ],
+          [
+            "Online",
+            "no pause and no speed change: time is shared"
+          ]
+        ]
+      },
+      {
+        "title": "Game & display",
+        "rows": [
+          [
+            "F10 or Pause",
+            "pause / resume"
+          ],
+          [
+            "Esc",
+            "cancel, then the pause menu"
+          ],
+          [
+            "F1",
+            "this help"
+          ],
+          [
+            "F2",
+            "how to play: what each cat does and where to train it"
+          ],
+          [
+            "F7",
+            "edge scrolling"
+          ],
+          [
+            "F8",
+            "report a bug (pause + screenshot)"
+          ],
+          [
+            "F11 or Alt + Enter",
+            "fullscreen"
+          ],
+          [
+            "F5 / F6",
+            "slow down / speed up the game"
+          ],
+          [
+            "{mute}",
+            "mute"
+          ],
+          [
+            "Options » Keys",
+            "rebind the keys (AZERTY / QWERTY)"
+          ]
+        ]
+      }
+    ]
+  },
+  "guide": {
+    "title": "How to play",
+    "goal_title": "The goal",
+    "goal_lines": [
+      "Cut the enemy off from all production: their training",
+      "buildings and their Kittens. The soldiers they have",
+      "left can never be replaced."
+    ],
+    "resources_title": "The four resources",
+    "resource_uses": {
+      "kibble": "training cats",
+      "wool": "putting up buildings",
+      "catnip": "Tomcats and upgrades",
+      "stone": "ramparts and stronger towers"
+    },
+    "resources_note": [
+      "Only Kittens gather. Right click a deposit; they carry the load",
+      "back to the Royal Basket on their own."
+    ],
+    "start_title": "Getting started",
+    "start_steps": [
+      "Right click a deposit with your four Kittens: they gather.",
+      "Select the Royal Basket, then {kitten} to train more Kittens.",
+      "About ten Kittens before thinking about fighting is sensible.",
+      "Population full? Select a Kitten, then {shed} for a Shed.",
+      "{scratching_post} for a Scratching Post: it trains your first soldiers ({scratcher} and {spitter}).",
+      "{dojo} for a Dojo: it trains Tomcats ({tomcat}) and the upgrades ({upgrades})."
+    ],
+    "cats_title": "Your cats",
+    "cats_warning": [
+      "A Kitten never grows up and never turns into anything.",
+      "Every cat is trained separately, in the building that",
+      "knows how. For a Tomcat, you need a Dojo."
+    ],
+    "role": "· {role}",
+    "recruited_at": "Trained at the {building} — {cost}",
+    "buildings_title": "The buildings",
+    "close": "F2 or Esc to close  ·  F1: the list of controls"
+  },
+  "hud": {
+    "population": "Cats {pop}/{limit}",
+    "army": "Army {count}",
+    "keys": "F1 controls · F2 how to play · F10 pause",
+    "fps": "{fps} fps",
+    "speed": "x{speed}",
+    "hints": [
+      "Click: select · Right click: order",
+      "Shift: queue orders · Wheel: zoom",
+      "A Kitten to build, the Basket to train."
+    ],
+    "building": "Building",
+    "owned_by": "{what}  —  {owner}",
+    "hp": "{hp} / {max}",
+    "stats": "Attack {atk}   Armour {armor}   Range {rng}",
+    "building_stats": "Attack {atk}   Range {rng}   Level {level}/{max}",
+    "carrying": "  ({amount} {resource})",
+    "selected": {
+      "one": "{count} unit selected",
+      "other": "{count} units selected"
+    },
+    "more": "+{count}",
+    "cost": "Cost: {cost}",
+    "resource_amount": "{amount} {resource}",
+    "node": "{resource} — {amount} / {max}"
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "cancel_tip": "Leave build mode",
+    "stop": "Stop",
+    "stop_tip": "Cancels the current orders",
+    "attack": "Attack",
+    "attack_tip": "Attack-move: engages any enemy met on the way",
+    "demolish": "Demolish",
+    "demolish_tip": "Abandon the building site",
+    "cancel_prod": "Cancel",
+    "cancel_prod_tip": "Cancels the last item",
+    "train_tip": "Train a {name} ({role}) — {desc}",
+    "research_tip": "{name} — {desc}",
+    "research_done": "  (already researched)",
+    "level_up": "Level up",
+    "level_up_tip": "Level {level}: +{atk} attack, +{rng} range, +{hp} HP",
+    "level_max": "Top level reached.",
+    "key_escape": "Esc",
+    "key_delete": "Del",
+    "key_backspace": "Bksp"
+  },
+  "status": {
+    "idle": "Idle",
+    "move": "Moving",
+    "attack_move": "Attack-move",
+    "gather": "Gathering",
+    "return": "Dropping off",
+    "build": "Building",
+    "attack": "Fighting",
+    "site": "Site {percent}%",
+    "training": "Training a {name} — {seconds} s{extra}",
+    "training_extra": " (+{count})",
+    "researching": "Researching: {name}",
+    "leveling": "Upgrading: level {level} — {seconds} s",
+    "ready": "Ready"
+  },
+  "messages": {
+    "welcome": "Welcome! Gather, build and scratch.",
+    "help_hint": "F1: list of controls.",
+    "net_welcome": "Network game: you are {player}.",
+    "net_delay": "A tenth of a second of order delay is normal.",
+    "building_done": {
+      "m": "{name} finished!",
+      "f": "{name} finished!"
+    },
+    "destroyed": {
+      "m": "{name} destroyed!",
+      "f": "{name} destroyed!"
+    },
+    "under_attack": {
+      "m": "Your {name} is under attack!",
+      "f": "Your {name} is under attack!"
+    },
+    "pop_full": "Population full: build a Shed!",
+    "pop_short": "Not enough population: build a Shed.",
+    "upgrade_done": "Upgrade: {name}",
+    "level_done": {
+      "m": "{name} reached level {level}!",
+      "f": "{name} reached level {level}!"
+    },
+    "no_idle_worker": "No idle kitten.",
+    "group_saved": "Group {number} stored ({count})",
+    "missing": "Missing: {resources}",
+    "select_builder": "Select a Kitten first.",
+    "cannot_place": "Cannot build there.",
+    "unexplored": "Unexplored area.",
+    "queue_full": "Production queue full.",
+    "attack_move": "Attack-move: click a destination.",
+    "unavailable": "Action unavailable.",
+    "production_cancelled": "Production cancelled.",
+    "site_abandoned": "Site abandoned (resources refunded).",
+    "rally_set": "Rally point set.",
+    "resumed": "Game resumed.",
+    "no_pause_online": "A network game cannot be paused.",
+    "speed_shared": "Speed is shared by both players.",
+    "speed": "Speed x{speed}",
+    "sound": "Sound {state}",
+    "sound_on": "on",
+    "sound_off": "muted",
+    "edge_scroll": "Edge scrolling: {state}",
+    "on": "on",
+    "off": "off",
+    "bug_saved": "Bug report saved: {file}",
+    "bug_sent": "Bug report sent, thank you!",
+    "map_unreadable": "Unreadable map, a random one stands in: {error}"
+  },
+  "pause": {
+    "title": "PAUSED",
+    "resume": "Resume",
+    "restart": "Restart",
+    "menu": "Main menu",
+    "quit": "Quit"
+  },
+  "end": {
+    "victory": "VICTORY!",
+    "defeat": "DEFEAT",
+    "victory_sub": "{winner} rules the garden.",
+    "defeat_sub": "{winner} has tipped over your basket...",
+    "duration": "Duration",
+    "units": "Cats trained",
+    "buildings": "Buildings raised",
+    "kills": "Kills",
+    "losses": "Losses",
+    "gathered": "{resource} gathered",
+    "replay": "Play again",
+    "menu": "Menu",
+    "quit": "Quit"
+  },
+  "bug": {
+    "title": "Report a bug",
+    "saved": "Report saved",
+    "any_key": "Press any key to go back to the game.",
+    "intro": "What happened? The game is paused.",
+    "keys": "Enter: send   ·   Shift + Enter: new line   ·   Esc: cancel",
+    "attached": "Also attached: the game state, the game and system versions. Nothing personal.",
+    "attach_shot": "Attach a screenshot (Tab)",
+    "destination": "Destination: {folder}",
+    "destination_online": "Sent to the game's team, a copy stays in: {folder}",
+    "sending": "Sending…",
+    "sent": "Sent to the game's team. Thank you!",
+    "queued": "No connection: it will go out the next time the game starts.",
+    "rejected": "The server turned it down: it stays saved on this computer.",
+    "open_folder": "Open the folder",
+    "save_failed": "Could not save:",
+    "in_folder": "in {folder}"
+  },
+  "report": {
+    "title": "Bug report — Purr-tage: The Cat War",
+    "description_heading": "Player description",
+    "no_description": "(no description given)",
+    "context_heading": "Context",
+    "game_heading": "Game",
+    "screenshot_heading": "Screenshot",
+    "screenshot_failed": "could not be saved: {error}",
+    "messages_heading": "Last messages shown",
+    "none": "none",
+    "none_f": "none",
+    "empty": "empty",
+    "yes": "yes",
+    "no": "no",
+    "unknown": "unknown",
+    "date": "Date",
+    "version": "Game version",
+    "python": "Python",
+    "pygame": "pygame",
+    "system": "System",
+    "install": "Install",
+    "frozen": "packaged executable",
+    "sources": "sources",
+    "window": "Window",
+    "window_value": "{w}x{h}, fullscreen: {full}",
+    "ui_scale": "UI scale",
+    "ui_scale_value": "{scale}, sprites x{assets}",
+    "fps": "Frames per second",
+    "language": "Language",
+    "screen": "Screen",
+    "main_menu": "main menu",
+    "seed": "Map seed",
+    "map": "Map",
+    "map_saved": "{name} ({size})",
+    "map_random": "random, {size}",
+    "difficulty": "Difficulty",
+    "playtime": "Play time",
+    "state": "State",
+    "state_playing": "playing",
+    "state_paused": "paused",
+    "state_victory": "victory",
+    "state_defeat": "defeat",
+    "paused_suffix": " (paused)",
+    "speed": "Speed",
+    "fog": "Fog of war",
+    "camera": "Camera",
+    "camera_value": "x={x} y={y} zoom x{zoom}",
+    "edge_scroll": "Edge scrolling",
+    "selection": "Selection",
+    "build_mode": "Build mode",
+    "entities": "Entities",
+    "entities_value": "{units} units, {buildings} buildings, {projectiles} projectiles",
+    "resources": "Resources",
+    "population": "Population",
+    "units": "Units",
+    "buildings": "Buildings",
+    "upgrades": "Upgrades",
+    "gathered": "Gathered",
+    "kills_losses": "Kills / losses",
+    "role_player": "player",
+    "role_ai": "AI"
+  },
+  "cli": {
+    "description": "Purr-tage: The Cat War — a feline RTS in pygame.",
+    "difficulty": "chaton (easy), matou (normal), tigre (hard)",
+    "seed": "map generation seed",
+    "mute": "turn the sound off",
+    "no_fog": "turn the fog of war off",
+    "fullscreen": "start in fullscreen",
+    "resolution": "render resolution, for instance 1920x1080 or 2880x1800 (default: the desktop one in fullscreen, otherwise the largest that fits)",
+    "direct": "start the game without going through the menu",
+    "check": "self test: starts a game, draws a few frames, saves a screenshot and quits. Checks that an installed package works.",
+    "no_edge_scroll": "do not scroll the view when the mouse touches the edge of the screen (F7 in game)",
+    "language": "interface language ({codes}); defaults to the system one",
+    "bad_resolution": "invalid resolution: {value} (expected WxH, for instance 1920x1080)",
+    "no_window": "Cannot open a game window ({error}). Try another resolution with --resolution, for instance 1280x760.",
+    "check_failed": "FAILED: the game did not set itself up",
+    "check_ok": "Check passed — {layout}",
+    "check_entities": "  {units} units, {buildings} buildings, {seconds} simulated",
+    "check_fonts": "  fonts: {fonts}",
+    "check_capture": "  screenshot: {path}",
+    "check_data": "  data: {path}",
+    "check_language": "  language: {language}",
+    "check_certificates": "  bug reports: {url} ({count} HTTPS certificates)",
+    "check_no_certificates": "FAILED: no HTTPS certificate, bug reports could not leave"
+  },
+  "fonts": {
+    "no_backend": "none of the modules {modules} is usable",
+    "error": "pygame's font module could not be loaded.\n\nDetail: {detail}\n\nMost common cause: “mainline” pygame ships no pre-built package for\nPython {major}.{minor}. pip then builds it from source and the font module\n(SDL_ttf) ends up incomplete.\n\nFix:\n\n    pip uninstall -y pygame pygame-ce\n    pip install -r requirements.txt\n\nrequirements.txt installs pygame-ce on Python 3.14 and later — same API,\nwith up-to-date pre-built packages. You can also go back to Python 3.12\nor 3.13, where pygame==2.6.1 provides a ready-made wheel."
+  },
+  "keys": {
+    "title": "Keys",
+    "subtitle": "Click a key, then press the one you want.",
+    "press": "…",
+    "hint": "Escape cancels the capture, then goes back to the options.",
+    "clash": "Two actions share a key: the first one in the list wins.",
+    "applied": "Keys applied.",
+    "reserved": "{pressed} belongs to the game and cannot be reassigned.",
+    "freed": "{name} has no key left.",
+    "reset": "Factory keys",
+    "preset_azerty": "AZERTY",
+    "preset_qwerty": "QWERTY",
+    "group_units": "Cats",
+    "group_buildings": "Buildings",
+    "group_upgrades": "Upgrades",
+    "group_camera": "Camera",
+    "group_commands": "Commands",
+    "camera_left": "Scroll left",
+    "camera_right": "Scroll right",
+    "camera_up": "Scroll up",
+    "camera_down": "Scroll down",
+    "stop": "Stop",
+    "attack_move": "Attack-move",
+    "idle_worker": "Idle kitten",
+    "center": "Centre the view",
+    "level_up": "Upgrade the tower",
+    "mute": "Mute",
+    "name_space": "Space",
+    "name_left": "Left",
+    "name_right": "Right",
+    "name_up": "Up",
+    "name_down": "Down",
+    "name_tab": "Tab",
+    "name_left_shift": "Left shift",
+    "name_right_shift": "Right shift",
+    "name_left_ctrl": "Left ctrl",
+    "name_right_ctrl": "Right ctrl",
+    "name_left_alt": "Left alt",
+    "name_right_alt": "Right alt",
+    "in_use": "(in use)"
+  }
+}

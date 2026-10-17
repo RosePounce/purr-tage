@@ -1,0 +1,756 @@
+{
+  "language": {
+    "code": "fr",
+    "name": "Français"
+  },
+  "app": {
+    "title": "Purr-tage : La Guerre des Chats"
+  },
+  "units": {
+    "kitten": {
+      "name": "Chaton",
+      "role": "Ouvrier",
+      "gender": "m",
+      "desc": "Récolte, construit et répare. Ne devient jamais un soldat."
+    },
+    "scratcher": {
+      "name": "Griffeur",
+      "role": "Mêlée",
+      "gender": "m",
+      "desc": "Soldat de mêlée robuste et bon marché."
+    },
+    "spitter": {
+      "name": "Cracheur",
+      "role": "Distance",
+      "gender": "m",
+      "desc": "Crache des boules de poils à distance. Fragile."
+    },
+    "tomcat": {
+      "name": "Matou",
+      "role": "Lourd",
+      "gender": "m",
+      "desc": "Gros chat de guerre : encaisse et défonce les bâtiments."
+    }
+  },
+  "buildings": {
+    "basket": {
+      "name": "Panier Royal",
+      "short": "Panier",
+      "gender": "m",
+      "desc": "Cœur de la colonie : recrute les Chatons, reçoit les ressources."
+    },
+    "shed": {
+      "name": "Cabane",
+      "gender": "f",
+      "desc": "+5 places de population."
+    },
+    "scratching_post": {
+      "name": "Griffoir",
+      "gender": "m",
+      "desc": "Caserne : recrute Griffeurs et Cracheurs.",
+      "short": "Griffoir"
+    },
+    "dojo": {
+      "name": "Dojo",
+      "gender": "m",
+      "desc": "Recrute les Matous et développe les améliorations."
+    },
+    "tower": {
+      "name": "Tour à Griffes",
+      "short": "Tour",
+      "gender": "f",
+      "desc": "Défense fixe qui tire sur les intrus."
+    },
+    "wall": {
+      "name": "Rempart",
+      "short": "Rempart",
+      "gender": "m",
+      "desc": "Pan de muraille en pierre. Glissez pour en poser toute une ligne."
+    }
+  },
+  "upgrades": {
+    "claws": {
+      "name": "Griffes aiguisées",
+      "short": "Griffes",
+      "desc": "+5 attaque pour toutes les unités."
+    },
+    "fur": {
+      "name": "Fourrure épaisse",
+      "short": "Fourrure",
+      "desc": "+2 armure et +15% de PV."
+    },
+    "paws": {
+      "name": "Pattes rapides",
+      "short": "Pattes",
+      "desc": "+20% de vitesse."
+    }
+  },
+  "resources": {
+    "kibble": {
+      "name": "Croquettes",
+      "short": "Croq."
+    },
+    "wool": {
+      "name": "Laine",
+      "short": "Laine"
+    },
+    "catnip": {
+      "name": "Herbe à chat",
+      "short": "Herbe"
+    },
+    "stone": {
+      "name": "Pierre",
+      "short": "Pierre"
+    }
+  },
+  "difficulties": {
+    "kitten": {
+      "name": "Chaton (facile)"
+    },
+    "tomcat": {
+      "name": "Matou (normal)"
+    },
+    "tiger": {
+      "name": "Tigre (difficile)"
+    }
+  },
+  "map_sizes": {
+    "64": "petite",
+    "96": "moyenne",
+    "128": "grande",
+    "160": "très grande"
+  },
+  "teams": {
+    "0": "Clan Moustache",
+    "1": "Horde Chartreux"
+  },
+  "menu": {
+    "title": "PURR-TAGE : LA GUERRE DES CHATS",
+    "subtitle": "Un RTS félin : récoltez, bâtissez, griffez.",
+    "play": "Jouer en solo",
+    "lan": "Multijoueur (réseau local)",
+    "options": "Options",
+    "help": "Aide",
+    "quit": "Quitter",
+    "goal": "Objectif : priver l'adversaire de toute production — ses bâtiments de recrutement et ses Chatons.",
+    "footer": "Difficulté : {difficulty}   ·   F2 : comment jouer   ·   F1 : les commandes",
+    "editor": "Éditeur de cartes",
+    "map_random": "Carte : aléatoire, {size}",
+    "map_saved": "Carte : {name} ({size})"
+  },
+  "options": {
+    "title": "Options",
+    "difficulty": "Difficulté : {value}",
+    "screen_auto": "Écran : auto",
+    "resolution": "{w} x {h}",
+    "fullscreen": "Plein écran : {value}",
+    "fog": "Brouillard : {value}",
+    "sound": "Son : {value}",
+    "edge_scroll": "Défilement au bord : {value}",
+    "cats": "Chats : {value}",
+    "cat_new": "nouveaux",
+    "cat_classic": "classiques",
+    "language": "Langue : {value}",
+    "back": "Retour",
+    "yes": "oui",
+    "no": "non",
+    "notes": [
+      "La difficulté ne concerne que l'adversaire du mode solo.",
+      "« Écran : auto » remplit l'écran sans écrouler la fluidité.",
+      "Le défilement au bord se coupe aussi en jeu avec F7.",
+      "La langue s'applique aussitôt et sera retenue au prochain lancement.",
+      "Les touches se reconfigurent dans « Touches », bascule AZERTY / QWERTY comprise."
+    ],
+    "keys": "Touches : configurer"
+  },
+  "lan": {
+    "title": "Multijoueur — réseau local",
+    "same_network": "Les deux ordinateurs doivent être sur le même réseau.",
+    "host": "Héberger une partie",
+    "join": "Rejoindre une partie",
+    "back": "Retour",
+    "manual": "Saisir une adresse",
+    "cancel": "Annuler",
+    "waiting": "En attente d'un joueur…",
+    "your_address": "Votre adresse : {ip}",
+    "port": "Port : {port}",
+    "will_see_you": "L'autre machine vous verra dans « Rejoindre ».",
+    "discovery_unavailable": "Découverte indisponible ({error}). Saisissez l'adresse.",
+    "searching": "Recherche de parties{dots}",
+    "host_row": "{name}  —  {ip}",
+    "address_field": "Adresse : {value}",
+    "typing_tip": "Entrée pour se connecter · Échap pour annuler",
+    "host_name": "Chats de {machine}",
+    "default_host_name": "Partie de chats",
+    "port_busy": "Impossible d'ouvrir le port {port} : {error}",
+    "connecting": "Connexion à {address}…",
+    "cannot_connect": "Connexion impossible : {error}",
+    "link_lost": "Liaison perdue avant le début de la partie.",
+    "version_mismatch": "Versions du jeu différentes (protocole {theirs} contre {ours}).",
+    "bad_map": "La carte de l'hôte est illisible : {error}"
+  },
+  "editor": {
+    "name": "Nom : {name}",
+    "name_hint": "Cliquez ici pour nommer la carte",
+    "default_name": "Nouvelle carte",
+    "info": "{size} ({w} x {h})",
+    "unsaved": " · non enregistrée",
+    "hint": "Clic gauche : peindre · clic droit : retirer les ressources · molette : zoom · clic milieu : déplacer · Ctrl+molette sur une ressource : quantité · Ctrl+Z : annuler · Ctrl+S : enregistrer",
+    "node_info": "{resource} : {amount} (par défaut {default})",
+    "terrains": {
+      "water": "Eau",
+      "sand": "Sable",
+      "grass": "Herbe",
+      "meadow": "Prairie",
+      "flower": "Fleurs"
+    },
+    "base": "Base {team}",
+    "erase": "Gomme",
+    "brush": "Pinceau : {size}",
+    "new_size": "Taille : {size}",
+    "new": "Nouvelle",
+    "random": "Aléatoire",
+    "open": "Ouvrir",
+    "save": "Enregistrer",
+    "undo": "Annuler",
+    "back": "Retour",
+    "cancel": "Fermer",
+    "open_title": "Ouvrir une carte",
+    "list_row": "{name} — {size}",
+    "list_scroll": "{first} à {last} sur {count} · molette pour défiler",
+    "confirm": "Modifications non enregistrées : cliquez à nouveau pour confirmer.",
+    "nothing_to_undo": "Rien à annuler.",
+    "created": "Nouvelle carte {size}.",
+    "opened": "Carte « {name} » ouverte.",
+    "saved": "Carte enregistrée : {path}",
+    "no_maps": "Aucune carte enregistrée dans {folder}.",
+    "load_failed": "Lecture impossible : {error}",
+    "save_failed": "Enregistrement impossible : {error}",
+    "name_taken": "Une autre carte s'appelle déjà « {name} ». Choisissez un autre nom.",
+    "problems": {
+      "bases": "Il faut exactement deux bases.",
+      "base_blocked": "Une base est posée sur l'eau, hors de la carte ou sur une ressource.",
+      "bases_overlap": "Les deux bases se chevauchent.",
+      "not_connected": "Les deux bases doivent être reliées par la terre."
+    }
+  },
+  "net": {
+    "desync": "Désynchronisation au tour {turn} — la partie ne peut pas continuer.",
+    "link_lost": "Liaison perdue avec l'adversaire.",
+    "waiting": "En attente de l'adversaire…"
+  },
+  "help": {
+    "title": "Commandes",
+    "close": "F1 ou Échap pour fermer",
+    "sections": [
+      {
+        "title": "Caméra",
+        "rows": [
+          [
+            "Flèches ou {camera}",
+            "déplacer la vue"
+          ],
+          [
+            "Souris au bord",
+            "déplacer la vue"
+          ],
+          [
+            "Clic molette + glisser",
+            "faire glisser la carte"
+          ],
+          [
+            "Molette / + -",
+            "zoom"
+          ],
+          [
+            "Clic sur la minimap",
+            "sauter à un endroit"
+          ],
+          [
+            "{center}",
+            "centrer sur la sélection / la dernière alerte"
+          ]
+        ]
+      },
+      {
+        "title": "Sélection",
+        "rows": [
+          [
+            "Clic gauche",
+            "sélectionner"
+          ],
+          [
+            "Glisser",
+            "sélection rectangulaire"
+          ],
+          [
+            "Maj + clic",
+            "ajouter / retirer de la sélection"
+          ],
+          [
+            "Double-clic",
+            "tous les chats du même type à l'écran"
+          ],
+          [
+            "Ctrl + 1..9",
+            "mémoriser un groupe"
+          ],
+          [
+            "1..9",
+            "rappeler un groupe (deux fois : centrer)"
+          ],
+          [
+            "{idle}",
+            "sélectionner un Chaton inoccupé"
+          ]
+        ]
+      },
+      {
+        "title": "Ordres",
+        "rows": [
+          [
+            "Clic droit",
+            "déplacer / récolter / attaquer / construire"
+          ],
+          [
+            "Maj + clic droit",
+            "mettre l'ordre en file"
+          ],
+          [
+            "{attack} puis clic",
+            "attaque-déplacement"
+          ],
+          [
+            "{stop}",
+            "stop"
+          ],
+          [
+            "Clic droit (bâtiment sél.)",
+            "point de ralliement"
+          ]
+        ]
+      },
+      {
+        "title": "Construction & production",
+        "rows": [
+          [
+            "Chaton sélectionné",
+            "boutons de construction ({buildings})"
+          ],
+          [
+            "Maj pendant la pose",
+            "enchaîner plusieurs bâtiments"
+          ],
+          [
+            "Glisser (Rempart)",
+            "poser toute une ligne de remparts"
+          ],
+          [
+            "Tour sélectionnée",
+            "{level_up} pour monter d'un niveau (jusqu'au 3)"
+          ],
+          [
+            "Panier / Griffoir / Dojo",
+            "{units} pour recruter"
+          ],
+          [
+            "Dojo",
+            "{upgrades} pour les améliorations"
+          ]
+        ]
+      },
+      {
+        "title": "Réseau local",
+        "rows": [
+          [
+            "Menu « Multijoueur »",
+            "héberger ou rejoindre une partie"
+          ],
+          [
+            "Héberger",
+            "affiche votre adresse ; l'autre machine vous trouve seule"
+          ],
+          [
+            "Rejoindre",
+            "liste les parties, ou saisie d'une adresse"
+          ],
+          [
+            "Port",
+            "50507 en TCP, 50508 en UDP pour l'annonce"
+          ],
+          [
+            "En réseau",
+            "pas de pause ni de vitesse : le temps est commun"
+          ]
+        ]
+      },
+      {
+        "title": "Partie & affichage",
+        "rows": [
+          [
+            "F10 ou Pause",
+            "mettre en pause / reprendre"
+          ],
+          [
+            "Échap",
+            "annuler, puis menu pause"
+          ],
+          [
+            "F1",
+            "cette aide"
+          ],
+          [
+            "F2",
+            "comment jouer : rôle des chats et recrutement"
+          ],
+          [
+            "F7",
+            "défilement au bord de l'écran"
+          ],
+          [
+            "F8",
+            "signaler un bogue (pause + capture)"
+          ],
+          [
+            "F11 ou Alt + Entrée",
+            "plein écran"
+          ],
+          [
+            "F5 / F6",
+            "ralentir / accélérer la partie"
+          ],
+          [
+            "{mute}",
+            "couper le son"
+          ],
+          [
+            "Options » Touches",
+            "reconfigurer les touches (AZERTY / QWERTY)"
+          ]
+        ]
+      }
+    ]
+  },
+  "guide": {
+    "title": "Comment jouer",
+    "goal_title": "Le but",
+    "goal_lines": [
+      "Priver l'adversaire de toute production : ses bâtiments",
+      "de recrutement et ses Chatons. Ses soldats restants ne",
+      "pourront plus être remplacés."
+    ],
+    "resources_title": "Les quatre ressources",
+    "resource_uses": {
+      "kibble": "recruter des chats",
+      "wool": "construire les bâtiments",
+      "catnip": "les Matous et les améliorations",
+      "stone": "les remparts et les tours renforcées"
+    },
+    "resources_note": [
+      "Seuls les Chatons récoltent. Clic droit sur un gisement ; ils repartent",
+      "déposer au Panier Royal tout seuls."
+    ],
+    "start_title": "Pour commencer",
+    "start_steps": [
+      "Clic droit sur un gisement avec vos quatre Chatons : ils récoltent.",
+      "Sélectionnez le Panier Royal, puis {kitten} pour recruter d'autres Chatons.",
+      "Une dizaine de Chatons avant de penser à se battre, c'est raisonnable.",
+      "Population pleine ? Un Chaton sélectionné, puis {shed} pour une Cabane.",
+      "{scratching_post} pour un Griffoir : il recrute vos premiers soldats ({scratcher} et {spitter}).",
+      "{dojo} pour un Dojo : il recrute les Matous ({tomcat}) et les améliorations ({upgrades})."
+    ],
+    "cats_title": "Vos chats",
+    "cats_warning": [
+      "Un Chaton ne grandit pas et ne se transforme jamais.",
+      "Chaque chat est recruté séparément, dans le bâtiment",
+      "qui sait le faire. Pour un Matou, il faut un Dojo."
+    ],
+    "role": "· {role}",
+    "recruited_at": "Recruté au {building} — {cost}",
+    "buildings_title": "Les bâtiments",
+    "close": "F2 ou Échap pour fermer  ·  F1 : la liste des commandes"
+  },
+  "hud": {
+    "population": "Chats {pop}/{limit}",
+    "army": "Armée {count}",
+    "keys": "F1 commandes · F2 jouer · F10 pause",
+    "fps": "{fps} fps",
+    "speed": "x{speed}",
+    "hints": [
+      "Clic : sélectionner · Clic droit : ordre",
+      "Maj : file d'ordres · Molette : zoom",
+      "Un Chaton pour bâtir, le Panier pour recruter."
+    ],
+    "building": "Bâtiment",
+    "owned_by": "{what}  —  {owner}",
+    "hp": "{hp} / {max}",
+    "stats": "Attaque {atk}   Armure {armor}   Portée {rng}",
+    "building_stats": "Attaque {atk}   Portée {rng}   Niveau {level}/{max}",
+    "carrying": "  ({amount} {resource})",
+    "selected": {
+      "one": "{count} unité sélectionnée",
+      "other": "{count} unités sélectionnées"
+    },
+    "more": "+{count}",
+    "cost": "Coût : {cost}",
+    "resource_amount": "{amount} {resource}",
+    "node": "{resource} — {amount} / {max}"
+  },
+  "actions": {
+    "cancel": "Annuler",
+    "cancel_tip": "Quitter le mode construction",
+    "stop": "Stop",
+    "stop_tip": "Annule les ordres en cours",
+    "attack": "Attaque",
+    "attack_tip": "Attaque-déplacement : engage tout ennemi rencontré",
+    "demolish": "Démolir",
+    "demolish_tip": "Abandonner le chantier",
+    "cancel_prod": "Annuler",
+    "cancel_prod_tip": "Annule le dernier élément",
+    "train_tip": "Recruter un {name} ({role}) — {desc}",
+    "research_tip": "{name} — {desc}",
+    "research_done": "  (déjà acquise)",
+    "level_up": "Niveau +",
+    "level_up_tip": "Niveau {level} : +{atk} attaque, +{rng} portée, +{hp} PV",
+    "level_max": "Niveau maximal atteint.",
+    "key_escape": "Échap",
+    "key_delete": "Suppr",
+    "key_backspace": "Retour"
+  },
+  "status": {
+    "idle": "En attente",
+    "move": "En route",
+    "attack_move": "Attaque-déplacement",
+    "gather": "Récolte",
+    "return": "Dépôt",
+    "build": "Construction",
+    "attack": "Combat",
+    "site": "Chantier {percent}%",
+    "training": "Recrute un {name} — {seconds} s{extra}",
+    "training_extra": " (+{count})",
+    "researching": "Recherche : {name}",
+    "leveling": "Amélioration : niveau {level} — {seconds} s",
+    "ready": "Prêt"
+  },
+  "messages": {
+    "welcome": "Bienvenue ! Récoltez, bâtissez et griffez.",
+    "help_hint": "F1 : liste des commandes.",
+    "net_welcome": "Partie en réseau : vous êtes {player}.",
+    "net_delay": "Un dixième de seconde de décalage sur les ordres est normal.",
+    "building_done": {
+      "m": "{name} terminé !",
+      "f": "{name} terminée !"
+    },
+    "destroyed": {
+      "m": "{name} détruit !",
+      "f": "{name} détruite !"
+    },
+    "under_attack": {
+      "m": "Votre {name} est attaqué !",
+      "f": "Votre {name} est attaquée !"
+    },
+    "pop_full": "Population pleine : construisez une Cabane !",
+    "pop_short": "Population insuffisante : construisez une Cabane.",
+    "upgrade_done": "Amélioration : {name}",
+    "level_done": {
+      "m": "{name} passé au niveau {level} !",
+      "f": "{name} passée au niveau {level} !"
+    },
+    "no_idle_worker": "Aucun chaton inoccupé.",
+    "group_saved": "Groupe {number} enregistré ({count})",
+    "missing": "Il manque : {resources}",
+    "select_builder": "Sélectionnez d'abord un Chaton.",
+    "cannot_place": "Emplacement impossible.",
+    "unexplored": "Zone inexplorée.",
+    "queue_full": "File de production pleine.",
+    "attack_move": "Attaque-déplacement : cliquez une destination.",
+    "unavailable": "Action indisponible.",
+    "production_cancelled": "Production annulée.",
+    "site_abandoned": "Chantier abandonné (ressources rendues).",
+    "rally_set": "Point de ralliement défini.",
+    "resumed": "Partie reprise.",
+    "no_pause_online": "Impossible de mettre en pause une partie en réseau.",
+    "speed_shared": "La vitesse est commune aux deux joueurs.",
+    "speed": "Vitesse x{speed}",
+    "sound": "Son {state}",
+    "sound_on": "activé",
+    "sound_off": "coupé",
+    "edge_scroll": "Défilement au bord de l'écran : {state}",
+    "on": "activé",
+    "off": "désactivé",
+    "bug_saved": "Rapport de bogue enregistré : {file}",
+    "bug_sent": "Rapport de bogue envoyé, merci !",
+    "map_unreadable": "Carte illisible, une carte aléatoire la remplace : {error}"
+  },
+  "pause": {
+    "title": "PAUSE",
+    "resume": "Reprendre",
+    "restart": "Recommencer",
+    "menu": "Menu principal",
+    "quit": "Quitter"
+  },
+  "end": {
+    "victory": "VICTOIRE !",
+    "defeat": "DÉFAITE",
+    "victory_sub": "{winner} règne sur le jardin.",
+    "defeat_sub": "{winner} a renversé votre panier...",
+    "duration": "Durée",
+    "units": "Chats formés",
+    "buildings": "Bâtiments posés",
+    "kills": "Victimes infligées",
+    "losses": "Pertes",
+    "gathered": "{resource} récoltées",
+    "replay": "Rejouer",
+    "menu": "Menu",
+    "quit": "Quitter"
+  },
+  "bug": {
+    "title": "Signaler un bogue",
+    "saved": "Rapport enregistré",
+    "any_key": "Une touche pour revenir au jeu.",
+    "intro": "Que s'est-il passé ? La partie est en pause.",
+    "keys": "Entrée : envoyer   ·   Maj + Entrée : nouvelle ligne   ·   Échap : annuler",
+    "attached": "Joint aussi : l'état de la partie, les versions du jeu et du système. Rien de personnel.",
+    "attach_shot": "Joindre une capture de l'écran (Tab)",
+    "destination": "Destination : {folder}",
+    "destination_online": "Envoyé à l'équipe du jeu, une copie reste dans : {folder}",
+    "sending": "Envoi en cours…",
+    "sent": "Envoyé à l'équipe du jeu. Merci !",
+    "queued": "Pas de connexion : il partira au prochain lancement du jeu.",
+    "rejected": "Le serveur l'a refusé : il reste enregistré sur cet ordinateur.",
+    "open_folder": "Ouvrir le dossier",
+    "save_failed": "Échec de l'enregistrement :",
+    "in_folder": "dans {folder}"
+  },
+  "report": {
+    "title": "Rapport de bogue — Purr-tage : La Guerre des Chats",
+    "description_heading": "Description du joueur",
+    "no_description": "(aucune description fournie)",
+    "context_heading": "Contexte",
+    "game_heading": "Partie",
+    "screenshot_heading": "Capture",
+    "screenshot_failed": "échec de l'enregistrement : {error}",
+    "messages_heading": "Derniers messages affichés",
+    "none": "aucun",
+    "none_f": "aucune",
+    "empty": "vide",
+    "yes": "oui",
+    "no": "non",
+    "unknown": "inconnue",
+    "date": "Date",
+    "version": "Version du jeu",
+    "python": "Python",
+    "pygame": "pygame",
+    "system": "Système",
+    "install": "Installation",
+    "frozen": "exécutable empaqueté",
+    "sources": "sources",
+    "window": "Fenêtre",
+    "window_value": "{w}x{h}, plein écran : {full}",
+    "ui_scale": "Échelle interface",
+    "ui_scale_value": "{scale}, sprites x{assets}",
+    "fps": "Images par seconde",
+    "language": "Langue",
+    "screen": "Écran",
+    "main_menu": "menu principal",
+    "seed": "Graine de carte",
+    "map": "Carte",
+    "map_saved": "{name} ({size})",
+    "map_random": "aléatoire, {size}",
+    "difficulty": "Difficulté",
+    "playtime": "Temps de jeu",
+    "state": "État",
+    "state_playing": "en cours",
+    "state_paused": "en pause",
+    "state_victory": "victoire",
+    "state_defeat": "défaite",
+    "paused_suffix": " (pause)",
+    "speed": "Vitesse",
+    "fog": "Brouillard",
+    "camera": "Caméra",
+    "camera_value": "x={x} y={y} zoom x{zoom}",
+    "edge_scroll": "Défilement au bord",
+    "selection": "Sélection",
+    "build_mode": "Mode construction",
+    "entities": "Entités",
+    "entities_value": "{units} unités, {buildings} bâtiments, {projectiles} projectiles",
+    "resources": "Ressources",
+    "population": "Population",
+    "units": "Unités",
+    "buildings": "Bâtiments",
+    "upgrades": "Améliorations",
+    "gathered": "Récolté",
+    "kills_losses": "Victimes / pertes",
+    "role_player": "joueur",
+    "role_ai": "IA"
+  },
+  "cli": {
+    "description": "Purr-tage : La Guerre des Chats — un RTS félin en pygame.",
+    "difficulty": "chaton (facile), matou (normal), tigre (difficile)",
+    "seed": "graine de génération de la carte",
+    "mute": "désactiver le son",
+    "no_fog": "désactiver le brouillard de guerre",
+    "fullscreen": "démarrer en plein écran",
+    "resolution": "résolution de rendu, par exemple 1920x1080 ou 2880x1800 (par défaut : celle du bureau en plein écran, sinon la plus grande qui tient)",
+    "direct": "lancer la partie sans passer par le menu",
+    "check": "auto-test : lance une partie, dessine quelques images, enregistre une capture et quitte. Sert à vérifier qu'un paquet installé fonctionne.",
+    "no_edge_scroll": "ne pas faire défiler la vue quand la souris touche le bord de l'écran (F7 en jeu)",
+    "language": "langue de l'interface ({codes}) ; par défaut celle du système",
+    "bad_resolution": "résolution invalide : {value} (attendu : LxH, par exemple 1920x1080)",
+    "no_window": "Impossible d'ouvrir une fenêtre de jeu ({error}). Essayez une autre résolution avec --resolution, par exemple 1280x760.",
+    "check_failed": "ÉCHEC : la partie ne s'est pas mise en place",
+    "check_ok": "Vérification réussie — {layout}",
+    "check_entities": "  {units} unités, {buildings} bâtiments, {seconds} simulées",
+    "check_fonts": "  polices : {fonts}",
+    "check_capture": "  capture : {path}",
+    "check_data": "  données : {path}",
+    "check_language": "  langue : {language}",
+    "check_certificates": "  rapports de bogue : {url} ({count} certificats HTTPS)",
+    "check_no_certificates": "ÉCHEC : aucun certificat HTTPS, les rapports de bogue ne pourraient pas partir"
+  },
+  "fonts": {
+    "no_backend": "aucun module parmi {modules} n'est utilisable",
+    "error": "Le module de polices de pygame n'a pas pu être chargé.\n\nDétail : {detail}\n\nCause la plus fréquente : pygame « mainline » ne publie pas de paquet\npré-compilé pour Python {major}.{minor}. pip le compile alors depuis les sources et le\nmodule de polices (SDL_ttf) finit incomplet.\n\nCorrectif :\n\n    pip uninstall -y pygame pygame-ce\n    pip install -r requirements.txt\n\nrequirements.txt installe pygame-ce sur Python 3.14 et plus — c'est la même\nAPI, avec des paquets pré-compilés à jour. Vous pouvez aussi repasser sur\nPython 3.12 ou 3.13, où pygame==2.6.1 fournit une roue toute prête."
+  },
+  "keys": {
+    "title": "Touches",
+    "subtitle": "Cliquez sur une touche, puis appuyez sur celle que vous voulez.",
+    "press": "…",
+    "hint": "Échap annule la saisie en cours, puis revient aux options.",
+    "clash": "Deux actions se partagent une touche : la première de la liste gagne.",
+    "applied": "Touches appliquées.",
+    "reserved": "{pressed} est réservée au jeu et ne peut pas être réassignée.",
+    "freed": "{name} n'a plus de touche.",
+    "reset": "Valeurs d'usine",
+    "preset_azerty": "AZERTY",
+    "preset_qwerty": "QWERTY",
+    "group_units": "Chats",
+    "group_buildings": "Bâtiments",
+    "group_upgrades": "Améliorations",
+    "group_camera": "Caméra",
+    "group_commands": "Commandes",
+    "camera_left": "Aller à gauche",
+    "camera_right": "Aller à droite",
+    "camera_up": "Aller en haut",
+    "camera_down": "Aller en bas",
+    "stop": "Arrêter",
+    "attack_move": "Avancer en attaquant",
+    "idle_worker": "Chaton inoccupé",
+    "center": "Centrer la vue",
+    "level_up": "Améliorer la tour",
+    "mute": "Couper le son",
+    "name_space": "Espace",
+    "name_left": "Gauche",
+    "name_right": "Droite",
+    "name_up": "Haut",
+    "name_down": "Bas",
+    "name_tab": "Tab",
+    "name_left_shift": "Maj gauche",
+    "name_right_shift": "Maj droite",
+    "name_left_ctrl": "Ctrl gauche",
+    "name_right_ctrl": "Ctrl droite",
+    "name_left_alt": "Alt gauche",
+    "name_right_alt": "Alt droite",
+    "in_use": "(en place)"
+  }
+}
