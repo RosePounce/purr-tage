@@ -172,9 +172,28 @@ jobs:
     permissions:
       contents: write
     steps:
+      # First: download-artifact writes into the workspace, and a checkout
+      # afterwards would wipe the installers.
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           path: packages
+      # The release message is written by hand, one file per version. Without
+      # one, the release keeps only the changelog GitHub builds from the pull
+      # requests, which says nothing to a player.
+      - name: Pick the release message
+        id: notes
+        shell: bash
+        env:
+          TAG: ${{ needs.version.outputs.tag }}
+        run: |
+          file="docs/releases/${TAG}.md"
+          if [[ -f "$file" ]]; then
+            echo "path=$file" >> "$GITHUB_OUTPUT"
+            echo "Release message: $file"
+          else
+            echo "::warning::no docs/releases/${TAG}.md: only the generated changelog."
+          fi
       - uses: softprops/action-gh-release@v2
         with:
           # On a manual run the tag does not exist yet: it is created here, on
@@ -183,6 +202,10 @@ jobs:
           name: ${{ needs.version.outputs.tag }}
           target_commitish: ${{ github.sha }}
           files: packages/**/*
+          # Empty when there is no file: the action then falls back to the
+          # generated notes on their own.
+          body_path: ${{ steps.notes.outputs.path }}
+          # Appended under the message above, pull request list and all.
           generate_release_notes: true
 
   # Test build (develop, or any branch other than main): the two installers are
