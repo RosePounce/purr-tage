@@ -3,6 +3,11 @@ name = "purr-tage"
 main = "src/index.js"
 compatibility_date = "2026-10-01"
 
+# The relay answers at one public address, the one the game knows. Preview
+# URLs would give every deployed version its own guessable address as well.
+workers_dev = true
+preview_urls = false
+
 # Not secret: they end up in the public repository anyway.
 # The keys, the Discord webhook and the e-mail addresses are secrets: set
 # them in the dashboard (Settings > Variables and Secrets, type Secret) or
