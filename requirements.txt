@@ -1,0 +1,4 @@
+# pygame « mainline » ne publie pas de roue pour Python 3.14 ;
+# pygame-ce (Community Edition) en fournit une et expose la même API.
+pygame==2.6.1 ; python_version < "3.14"
+pygame-ce>=2.5.8 ; python_version >= "3.14"

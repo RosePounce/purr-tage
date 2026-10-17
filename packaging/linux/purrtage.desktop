@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Purr-tage : La Guerre des Chats
+Name[en]=Purr-tage: The Cat War
+GenericName=Jeu de stratégie temps réel
+GenericName[en]=Real-time strategy game
+Comment=Un RTS félin : récoltez, bâtissez, griffez
+Comment[en]=A feline RTS: gather, build, scratch
+Exec=Purrtage
+Icon=purrtage
+Categories=Game;StrategyGame;
+Terminal=false
+StartupNotify=true

@@ -1,0 +1,231 @@
+name: Packages
+
+# Builds both installers: a .exe for Windows, an AppImage for Linux. Each
+# package is run after it is built and must pass its own self-check, otherwise
+# the pipeline fails.
+#
+# Three ways in, and each one decides where the build ends up:
+#
+#   - pushing a v* tag        -> the real release, published on that tag
+#   - "Run workflow" on main  -> the real release, tagged from __version__
+#   - "Run workflow" on       -> a test build, pushed to the `builds` branch
+#     develop (or any other       instead of released
+#     branch)
+#
+#     git tag v1.0.0 && git push --tags
+#
+# The `builds` branch is rewritten from scratch on every test build, so it
+# always holds just the latest two installers and never grows the repository.
+# It carries binaries only, no source: tests.yml is told to skip it.
+#
+# Nothing triggers on a plain push: building two installers on every commit
+# would serve no purpose, and the tests already run on every push (see
+# tests.yml). Pick the branch from the Actions tab instead.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version number to force (leave empty to compute it)"
+        default: ""
+        required: false
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  # Computed once, in a job of its own, because the two build jobs and the
+  # delivery jobs all have to agree on the very same number and tag.
+  version:
+    name: Version number
+    runs-on: ubuntu-latest
+    outputs:
+      number: ${{ steps.pick.outputs.number }}
+      tag: ${{ steps.pick.outputs.tag }}
+      test: ${{ steps.pick.outputs.test }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pick the version
+        id: pick
+        shell: bash
+        # Through the environment rather than inlined in the script: the input
+        # is free text, and a `${{ }}` substitution inside a shell line would
+        # let it run as code.
+        env:
+          FORCED: ${{ inputs.version }}
+        run: |
+          base=$(python3 -c "import io,re; print(re.search(r'__version__ = \"([^\"]+)\"', io.open('purrtage/__init__.py', encoding='utf-8').read()).group(1))")
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            number="${GITHUB_REF#refs/tags/v}"
+            tag="${GITHUB_REF_NAME}"
+            test=false
+          elif [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            # A forced number wins over __version__, and is still a release.
+            number="${FORCED:-${base}}"
+            tag="v${number}"
+            test=false
+          elif [[ -n "${FORCED}" ]]; then
+            number="${FORCED}"
+            tag="v${number}"
+            test=true
+          else
+            # develop, and any other branch: a test build. The run number
+            # keeps each one distinct, so no earlier build is ever replaced.
+            number="${base}-dev.${GITHUB_RUN_NUMBER}"
+            tag="v${number}"
+            test=true
+          fi
+          # A real release invents its tag on a manual run, so it could land on
+          # one that is already released. Stop here rather than overwrite it:
+          # on main that means __version__ has not been bumped since the last
+          # release. Test builds never create a tag, so they are free to repeat.
+          # Asked of the remote: a shallow checkout may not carry every tag.
+          if [[ "${test}" == "false" ]] && [[ "${GITHUB_REF}" != refs/tags/v* ]] \
+             && [[ -n "$(git ls-remote --tags origin "refs/tags/$tag")" ]]; then
+            echo "::error::tag $tag already exists. Bump __version__ in" \
+                 "purrtage/__init__.py, or force a number with the 'version' input."
+            exit 1
+          fi
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "test=$test" >> "$GITHUB_OUTPUT"
+          echo "Version $number -> tag $tag (test build: $test)"
+
+  linux:
+    name: AppImage (Linux)
+    needs: version
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - run: pip install -r requirements.txt pyinstaller pillow certifi
+      - name: Icon
+        run: python packaging/make_icon.py
+      - name: PyInstaller package
+        run: pyinstaller --noconfirm --clean --distpath dist --workpath build/pyi packaging/purrtage.spec
+      - name: The package checks itself
+        env:
+          SDL_VIDEODRIVER: dummy
+          SDL_AUDIODRIVER: dummy
+        run: ./dist/Purrtage/Purrtage --verification --no-sound
+      - name: AppImage
+        run: bash packaging/linux/make_appimage.sh "${{ needs.version.outputs.number }}"
+      - name: The AppImage checks itself
+        env:
+          SDL_VIDEODRIVER: dummy
+          SDL_AUDIODRIVER: dummy
+        run: |
+          file=$(ls dist/*.AppImage)
+          "$file" --appimage-extract-and-run --verification --no-sound
+      - uses: actions/upload-artifact@v4
+        with:
+          name: appimage-linux
+          path: dist/*.AppImage
+          if-no-files-found: error
+
+  windows:
+    name: Installer (Windows)
+    needs: version
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - run: pip install -r requirements.txt pyinstaller pillow certifi
+      - name: Icon
+        run: python packaging/make_icon.py
+      - name: PyInstaller package
+        run: pyinstaller --noconfirm --clean --distpath dist --workpath build/pyi packaging/purrtage.spec
+      - name: The package checks itself
+        env:
+          SDL_VIDEODRIVER: dummy
+          SDL_AUDIODRIVER: dummy
+        run: .\dist\Purrtage\Purrtage.exe --verification --no-sound
+      - name: Inno Setup
+        shell: pwsh
+        run: |
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            choco install innosetup --no-progress -y
+            $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          }
+          & $iscc "/DVersion=${{ needs.version.outputs.number }}" packaging\windows\installer.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installer-windows
+          path: dist/*installeur.exe
+          if-no-files-found: error
+
+  # Real release (v* tag, or a manual run on main): the two installers land on
+  # the GitHub Releases page, under their tag.
+  release:
+    name: Release
+    if: needs.version.outputs.test == 'false'
+    needs: [version, linux, windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: packages
+      - uses: softprops/action-gh-release@v2
+        with:
+          # On a manual run the tag does not exist yet: it is created here, on
+          # the commit the workflow ran against.
+          tag_name: ${{ needs.version.outputs.tag }}
+          name: ${{ needs.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          files: packages/**/*
+          generate_release_notes: true
+
+  # Test build (develop, or any branch other than main): the two installers are
+  # force-pushed onto the `builds` branch, which is recreated from nothing each
+  # time so it never accumulates binaries.
+  builds-branch:
+    name: Push to the builds branch
+    if: needs.version.outputs.test == 'true'
+    needs: [version, linux, windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: packages
+      - name: Force-push the installers onto `builds`
+        env:
+          NUMBER: ${{ needs.version.outputs.number }}
+          SOURCE: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          work="$(mktemp -d)"
+          # Flatten: download-artifact keeps one sub-folder per artifact.
+          find packages -type f \( -name '*.AppImage' -o -name '*.exe' \) \
+            -exec cp {} "$work"/ \;
+          cat > "$work/README.txt" <<EOF
+          Test build $NUMBER
+          From branch $SOURCE at commit $SHA.
+
+          This branch is rewritten on every test build: it only ever holds the
+          latest installers. Do not base work on it.
+          EOF
+
+          cd "$work"
+          git init -q
+          git checkout -q -b builds
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -q -m "Test build $NUMBER from $SOURCE"
+          # -f because the branch has no shared history with the previous build:
+          # each run replaces it wholesale.
+          git push -f \
+            "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" \
+            builds

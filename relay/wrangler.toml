@@ -1,0 +1,36 @@
+# The bug report relay. Deploying: see README.md.
+name = "purr-tage"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+# Not secret: they end up in the public repository anyway.
+# The keys, the Discord webhook and the e-mail addresses are secrets: set
+# them in the dashboard (Settings > Variables and Secrets, type Secret) or
+# with `wrangler secret put ...`, never here.
+[vars]
+GITHUB_REPO = "RosePounce/purr-tage"
+GITHUB_LABELS = "bug,signalement-joueur"
+REPORT_TTL_DAYS = "180"         # then KV deletes the report and its screenshot
+
+# A copy of every report, and the screenshots the issues link to.
+# The id is that of the "purrtage-reports" namespace: see README.md.
+[[kv_namespaces]]
+binding = "REPORTS"
+id = "770a4bbeab3c4044abba9c544a4f6b7c"
+
+# At most 5 reports a minute from the same address.
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
+persist = true
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 1
+persist = true

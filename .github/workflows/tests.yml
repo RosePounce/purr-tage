@@ -1,0 +1,41 @@
+name: Tests
+
+# Fast, and on every push. Building the installers, on the other hand, waits
+# for a version tag: see packages.yml.
+
+on:
+  push:
+    # Only the two long-lived branches. `builds` carries installers only, no
+    # source, and feature branches are covered by their pull request below.
+    branches: ["main", "develop"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: Test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Tests
+        env:
+          SDL_VIDEODRIVER: dummy
+          SDL_AUDIODRIVER: dummy
+        run: python -m unittest discover -s tests -v
+
+  relay:
+    name: Bug report relay
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      # No dependency to install: the tests only need Node itself.
+      - name: Tests
+        working-directory: relay
+        run: node --test

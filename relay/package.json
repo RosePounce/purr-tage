@@ -1,0 +1,16 @@
+{
+  "name": "purrtage-relay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Forwards Purr-tage bug reports to GitHub, Discord and e-mail",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
