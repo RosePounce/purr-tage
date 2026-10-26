@@ -124,10 +124,21 @@
     "0": "Whisker Clan",
     "1": "Chartreux Horde"
   },
+  "factions": {
+    "whiskers": { "name": "Whisker Clan" },
+    "chartreux": { "name": "Chartreux Horde" },
+    "couch": { "name": "Couch Clan" },
+    "moon": { "name": "Moon Faction" },
+    "sun": { "name": "Sun Empire" },
+    "scratch": { "name": "Order of the Scratching Post" },
+    "league": { "name": "League of Tomcats" },
+    "gingers": { "name": "Ginger Syndicate" }
+  },
   "menu": {
     "title": "PURR-TAGE: THE CAT WAR",
     "subtitle": "A feline RTS: gather, build, scratch.",
     "play": "Single player",
+    "faction": "Faction: {value}",
     "lan": "Multiplayer (local network)",
     "options": "Options",
     "help": "Help",

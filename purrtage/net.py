@@ -29,7 +29,9 @@ BEACON_PERIOD = 1.0
 # A flat refusal when the two versions differ. 2: the start message names the
 # map size, and carries the whole map when the host plays one of its own.
 # 3: stone, ramparts and tower levels change the simulation itself.
-PROTOCOL = 3
+# 4: the handshake exchanges the chosen faction (start carries the host's, the
+# client answers with a "hello" carrying its own) before the game starts.
+PROTOCOL = 4
 
 # The game signature in the UDP advertisements. The game was called "catwar"
 # up to version 1.0; the signature stays the same so that a 1.0 host and a
@@ -126,6 +128,18 @@ class Link(object):
                 out.append(self.inbox.get_nowait())
             except queue.Empty:
                 return out
+
+    def recv(self):
+        """One message if one is waiting, else None. Never blocks.
+
+        The handshake reads a single control message this way and leaves the
+        rest of the FIFO untouched, so the first lockstep messages behind it
+        are later handed to the session by `poll` instead of being dropped.
+        """
+        try:
+            return self.inbox.get_nowait()
+        except queue.Empty:
+            return None
 
     def close(self):
         self.alive = False

@@ -19,10 +19,10 @@ from .fog import Fog
 from .layout import Layout
 from .pathfinding import astar, nearest_open, tile_center, to_tile
 from .player import Player
-from .settings import (BUILDINGS, DEFEND_RANGE, DIFFICULTIES, HUD_H,
-                       MAX_CATCHUP, MILITARY, NEXT_SITE_TILES, RESOURCES,
-                       SCREEN_H, SCREEN_W, TICK_DT, TILE, TOPBAR_H, UNITS,
-                       UPGRADES)
+from .settings import (BUILDINGS, DEFAULT_FACTION, DEFEND_RANGE, DIFFICULTIES,
+                       FACTION_ORDER, FACTIONS, HUD_H, MAX_CATCHUP, MILITARY,
+                       NEXT_SITE_TILES, RESOURCES, SCREEN_H, SCREEN_W, TICK_DT,
+                       TILE, TOPBAR_H, UNITS, UPGRADES)
 from .utils import bresenham, clamp, dist, dist2
 
 PATHS_PER_FRAME = 16
@@ -40,7 +40,8 @@ ST_PLAYING, ST_PAUSED, ST_VICTORY, ST_DEFEAT = range(4)
 
 class Game(object):
     def __init__(self, world, difficulty="tomcat", fog_enabled=True, audio=None,
-                 layout=None, local_team=0, use_ai=True):
+                 layout=None, local_team=0, use_ai=True, faction=None,
+                 enemy_faction=None):
         E.reset_ids()               # the same entity identifiers on both sides
         self.world = world
         self.difficulty = difficulty
@@ -57,8 +58,21 @@ class Game(object):
         # network each machine names a different one, but the simulation is
         # shared.
         self.local_team = int(local_team)
-        self.players = [Player(0, is_ai=False),
-                        Player(1, is_ai=bool(use_ai), difficulty=difficulty)]
+        # The local player wears the chosen clan. The opponent wears the clan
+        # it announced over the network, or — in solo, or when none is given —
+        # a contrasting one so the two sides never look alike. Purely cosmetic.
+        chosen = faction if faction in FACTIONS else DEFAULT_FACTION
+        if enemy_faction in FACTIONS:
+            other = enemy_faction
+        else:
+            other = (DEFAULT_FACTION if chosen != DEFAULT_FACTION
+                     else FACTION_ORDER[1])
+        facs = [None, None]
+        facs[self.local_team] = chosen
+        facs[1 - self.local_team] = other
+        self.players = [Player(0, is_ai=False, faction=facs[0]),
+                        Player(1, is_ai=bool(use_ai), difficulty=difficulty,
+                               faction=facs[1])]
         self.human = self.players[self.local_team]
         self.enemy = self.players[1 - self.local_team]
         self.use_ai = bool(use_ai)

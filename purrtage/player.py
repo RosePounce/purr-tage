@@ -4,17 +4,22 @@
 """A player's state: treasury, population, upgrades."""
 
 from . import i18n
-from .settings import (POP_HARD_CAP, RESOURCES, START_RESOURCES, TEAM_COLORS,
-                       UPGRADES)
+from .settings import (FACTIONS, POP_HARD_CAP, RESOURCES, START_RESOURCES,
+                       TEAM_COLORS, UPGRADES)
 
 
 class Player(object):
-    def __init__(self, team, is_ai=False, difficulty=None, name=None):
+    def __init__(self, team, is_ai=False, difficulty=None, name=None,
+                 faction=None):
         self.team = team
         self.is_ai = is_ai
         self.difficulty = difficulty
         self._name = name
-        self.color = TEAM_COLORS[team % len(TEAM_COLORS)]
+        # A chosen faction wears its own colour; otherwise fall back to the
+        # team's default. Cosmetic only: the colour never reaches the sim.
+        self.faction = faction if faction in FACTIONS else None
+        self.color = (FACTIONS[self.faction]["color"] if self.faction
+                      else TEAM_COLORS[team % len(TEAM_COLORS)])
         self.res = dict(START_RESOURCES)
         self.pop = 0
         self.pop_cap = 0
@@ -31,7 +36,11 @@ class Player(object):
     @property
     def name(self):
         """The side's name. Translated on read: the language can change in game."""
-        return self._name or i18n.team_name(self.team)
+        if self._name:
+            return self._name
+        if self.faction:
+            return i18n.faction_name(self.faction)
+        return i18n.team_name(self.team)
 
     # ------------------------------------------------------------ resources --
     def can_afford(self, cost):

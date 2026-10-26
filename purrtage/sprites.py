@@ -38,6 +38,37 @@ _misc_cache = {}
 # options. Flipped through `set_cat_style`, remembered in the preferences.
 CLASSIC_CATS = False
 
+# The colour worn by each team for this game. Sprites are cached by team index
+# (0/1), so a game with two factions just swaps this table and the cache
+# follows. `None` until first read: the defaults come from the settings.
+_team_colors = None
+
+
+def team_color(team):
+    """The active colour of a team, defaulting to the settings palette."""
+    global _team_colors
+    if _team_colors is None:
+        from .settings import TEAM_COLORS
+        _team_colors = [tuple(c) for c in TEAM_COLORS]
+    return _team_colors[team % len(_team_colors)]
+
+
+def set_team_colors(colors):
+    """Set the per-team colours for the current game or menu.
+
+    Drops the sprite and icon caches so the new colours show at once. A no-op
+    when the colours are already the ones asked for, so it is cheap to call
+    every frame from a screen that simply wants to assert its palette.
+    """
+    global _team_colors
+    cols = [tuple(c) for c in colors]
+    if _team_colors == cols:
+        return
+    _team_colors = cols
+    _unit_cache.clear()
+    _build_cache.clear()
+    _icon_cache.clear()
+
 # Coats of the various cat breeds
 FUR = {
     "kitten":    ((246, 226, 196), (214, 186, 150), (120, 96, 76)),
@@ -426,8 +457,7 @@ def unit_sprite(utype, team, frame=0, facing=1):
     key = (utype, team, frame % 4, facing)
     surf = _unit_cache.get(key)
     if surf is None:
-        from .settings import TEAM_COLORS
-        surf = _draw_cat(utype, TEAM_COLORS[team % len(TEAM_COLORS)], frame % 4)
+        surf = _draw_cat(utype, team_color(team), frame % 4)
         if facing < 0:
             surf = pygame.transform.flip(surf, True, False)
         _unit_cache[key] = surf
@@ -658,8 +688,7 @@ def wall_sprite(team, px, links):
     key = ("wall-links", team, px, links)
     surf = _build_cache.get(key)
     if surf is None:
-        from .settings import TEAM_COLORS
-        surf = _draw_wall(TEAM_COLORS[team % len(TEAM_COLORS)], px, links)
+        surf = _draw_wall(team_color(team), px, links)
         _build_cache[key] = surf
     return surf
 
@@ -668,9 +697,7 @@ def building_sprite(btype, team, px, level=1):
     key = (btype, team, px, level)
     surf = _build_cache.get(key)
     if surf is None:
-        from .settings import TEAM_COLORS
-        surf = _draw_building(btype, TEAM_COLORS[team % len(TEAM_COLORS)], px,
-                              level)
+        surf = _draw_building(btype, team_color(team), px, level)
         _build_cache[key] = surf
     return surf
 

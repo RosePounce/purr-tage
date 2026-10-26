@@ -77,6 +77,53 @@ class TestTransport(unittest.TestCase):
                         "the cut is not detected")
 
 
+class TestFactionHandshake(unittest.TestCase):
+    """The handshake exchanges each side's chosen faction (protocol 4)."""
+
+    def setUp(self):
+        self.host = net.Host(name="test", port=PORT, announce=False)
+        self.client = net.connect("127.0.0.1", PORT, timeout=3.0)
+        wait_for(lambda: self.host.connected)
+
+    def tearDown(self):
+        self.client.close()
+        self.host.close()
+
+    def test_recv_takes_one_message_and_leaves_the_rest(self):
+        """recv() must consume only the hello, not the orders queued behind it."""
+        server = self.host.link
+        self.client.send({"type": "hello", "faction": "sun"})
+        self.client.send({"type": "turn", "turn": 0, "cmds": []})
+        self.assertTrue(wait_for(lambda: server.inbox.qsize() >= 2))
+        first = server.recv()
+        self.assertEqual(first["type"], "hello")
+        self.assertEqual(first["faction"], "sun")
+        self.assertEqual([m["type"] for m in server.poll()], ["turn"])
+
+    def test_each_side_paints_the_other_in_its_real_clan(self):
+        server = self.host.link
+        server.send({"type": "start", "seed": 1, "team": 1, "faction": "sun"})
+        self.assertTrue(wait_for(lambda: self.client.inbox.qsize() > 0))
+        start = self.client.recv()
+        self.assertEqual(start["faction"], "sun")
+        self.client.send({"type": "hello", "faction": "moon"})
+        self.assertTrue(wait_for(lambda: server.inbox.qsize() > 0))
+        hello = server.recv()
+        self.assertEqual(hello["faction"], "moon")
+        # Host: team 0 / sun, sees the client (team 1) as moon.
+        host_game = Game(World(seed=1), fog_enabled=False, local_team=0,
+                         use_ai=False, faction=start["faction"],
+                         enemy_faction=hello["faction"])
+        self.assertEqual(host_game.players[0].faction, "sun")
+        self.assertEqual(host_game.players[1].faction, "moon")
+        # Client: team 1 / moon, sees the host (team 0) as sun.
+        client_game = Game(World(seed=1), fog_enabled=False, local_team=1,
+                           use_ai=False, faction=hello["faction"],
+                           enemy_faction=start["faction"])
+        self.assertEqual(client_game.players[1].faction, "moon")
+        self.assertEqual(client_game.players[0].faction, "sun")
+
+
 class TestLockstep(unittest.TestCase):
     """Two linked simulations must stay identical turn after turn."""
 

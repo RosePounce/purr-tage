@@ -314,6 +314,10 @@ def team_name(team):
     return _text("teams.%d" % team, "%d" % team)
 
 
+def faction_name(key):
+    return _text("factions.%s.name" % key, key)
+
+
 def map_size_name(side):
     """The label of a map side: medium for 96; off the list, "200 x 200"."""
     return _text("map_sizes.%d" % side, "%d x %d" % (side, side))

@@ -195,6 +195,25 @@ BUG_REPORT_URL = "https://purr-tage.rose-pounce.workers.dev/report"
 # The names of the two sides live in `purrtage/locales/`, under `teams`.
 TEAM_COLORS = [(92, 162, 232), (226, 94, 94)]
 
+# --------------------------------------------------------------- Factions ----
+# The clans a player can wear before a game. Cosmetic for now: a name (under
+# the `factions.<id>` key) and a colour. The first two reuse the team colours;
+# the rest come from the design sheet (export-tableur/clans.csv). A game paints
+# the local player in the chosen clan and the opponent in a contrasting one.
+FACTIONS = {
+    "whiskers":  dict(color=(92, 162, 232)),
+    "chartreux": dict(color=(226, 94, 94)),
+    "couch":     dict(color=(236, 230, 218)),
+    "moon":      dict(color=(40, 54, 92)),
+    "sun":       dict(color=(238, 206, 92)),
+    "scratch":   dict(color=(104, 186, 110)),
+    "league":    dict(color=(158, 110, 198)),
+    "gingers":   dict(color=(226, 140, 72)),
+}
+FACTION_ORDER = ("whiskers", "chartreux", "couch", "moon", "sun",
+                 "scratch", "league", "gingers")
+DEFAULT_FACTION = "whiskers"
+
 # ---------------------------------------------------------------- Palette ----
 C_WATER       = (54, 102, 146)
 C_WATER_DEEP  = (41, 80, 120)

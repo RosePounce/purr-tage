@@ -14,9 +14,9 @@ import pygame
 from . import i18n, keymap, mapfile, prefs, sprites
 from .settings import (BUILDINGS, C_BORDER, C_GOLD, C_OK, C_BAD, C_PANEL,
                        C_PANEL_DARK, C_PANEL_LIGHT, C_TEXT, C_TEXT_DIM,
-                       BUILD_MENU, DEFAULT_MAP_SIZE, DIFF_ORDER, MAP_SIZES,
-                       RESOLUTIONS, RESOURCES, UNITS, UNIT_ORDER,
-                       UPGRADE_ORDER)
+                       BUILD_MENU, DEFAULT_FACTION, DEFAULT_MAP_SIZE, DIFF_ORDER,
+                       FACTION_ORDER, FACTIONS, MAP_SIZES, RESOLUTIONS,
+                       RESOURCES, TEAM_COLORS, UNITS, UNIT_ORDER, UPGRADE_ORDER)
 from .ui import format_cost
 from .utils import clamp, fmt_time, mix
 
@@ -124,6 +124,9 @@ class MainMenu(object):
         self.fonts = fonts
         self.layout = layout
         self.diff_index = 1
+        saved_faction = prefs.get("faction", DEFAULT_FACTION)
+        self.faction_index = (FACTION_ORDER.index(saved_faction)
+                              if saved_faction in FACTION_ORDER else 0)
         self.res_index = -1          # -1 = the desktop resolution
         self.fullscreen = False
         self.fog = True
@@ -147,22 +150,23 @@ class MainMenu(object):
         bw, half = u(300), u(145)
         # The block sits below the thumbnails of the four breeds and above
         # the two tip lines: it must never bite into either.
-        height = u(56 + 8 + 44 + 8 + 48 + 8 + 44 + 14 + 40)
-        min_top = u(368)
+        height = u(56 + 4 + 44 + 4 + 44 + 4 + 48 + 4 + 44 + 8 + 40)
+        min_top = u(360)
         bottom_room = layout.h - u(78)
         top = max(min_top, min_top + (bottom_room - min_top - height) // 2)
         self.buttons = {
             "play": Button((cx - bw // 2, top, bw, u(56)), i18n.t("menu.play")),
-            "map": Button((cx - bw // 2, top + u(64), bw, u(44)), ""),
-            "lan": Button((cx - bw // 2, top + u(116), bw, u(48)),
+            "map": Button((cx - bw // 2, top + u(60), bw, u(44)), ""),
+            "faction": Button((cx - bw // 2, top + u(108), bw, u(44)), ""),
+            "lan": Button((cx - bw // 2, top + u(156), bw, u(48)),
                           i18n.t("menu.lan")),
-            "options": Button((cx - bw // 2, top + u(172), half, u(44)),
+            "options": Button((cx - bw // 2, top + u(208), half, u(44)),
                               i18n.t("menu.options")),
-            "editor": Button((cx + u(5), top + u(172), half, u(44)),
+            "editor": Button((cx + u(5), top + u(208), half, u(44)),
                              i18n.t("menu.editor")),
-            "help": Button((cx - bw // 2, top + u(230), half, u(40)),
+            "help": Button((cx - bw // 2, top + u(260), half, u(40)),
                            i18n.t("menu.help")),
-            "quit": Button((cx + u(5), top + u(230), half, u(40)),
+            "quit": Button((cx + u(5), top + u(260), half, u(40)),
                            i18n.t("menu.quit")),
         }
 
@@ -202,12 +206,22 @@ class MainMenu(object):
             return None
         return RESOLUTIONS[self.res_index % len(RESOLUTIONS)]
 
+    # ------------------------------------------------------------- faction --
+    def faction_id(self):
+        return FACTION_ORDER[self.faction_index % len(FACTION_ORDER)]
+
+    def faction_color(self):
+        return FACTIONS[self.faction_id()]["color"]
+
     def update(self, dt):
         self.t += dt
 
     def draw(self, screen):
         L = self.layout
         u = L.u
+        # Preview the chosen clan: the strolling cats and the breed thumbnails
+        # below take team 0's colour, so paint it with the selected faction.
+        sprites.set_team_colors([self.faction_color(), TEAM_COLORS[1]])
         f_tiny, f_small, f_med, f_big, f_huge = self.fonts
         _backdrop(screen, self.t, L)
         cx = L.w // 2
@@ -232,6 +246,8 @@ class MainMenu(object):
 
         mouse = pygame.mouse.get_pos()
         self.buttons["map"].label = self.map_label()
+        self.buttons["faction"].label = i18n.t(
+            "menu.faction", value=i18n.faction_name(self.faction_id()))
         for key, b in self.buttons.items():
             b.draw(screen, f_big if key == "play" else
                    (f_med if key == "lan" else f_small), mouse, u(8))
@@ -254,6 +270,12 @@ class MainMenu(object):
                     step = -1 if button == 3 else 1
                     self.map_index = ((self.map_index + step)
                                       % len(self.map_choices()))
+                    return None
+                if key == "faction":
+                    step = -1 if button == 3 else 1
+                    self.faction_index = ((self.faction_index + step)
+                                          % len(FACTION_ORDER))
+                    prefs.write("faction", self.faction_id())
                     return None
                 return key
         return None

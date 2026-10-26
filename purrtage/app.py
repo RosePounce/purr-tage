@@ -88,6 +88,7 @@ class App(object):
         self.host = None            # net.Host while hosting
         self.browser = None         # net.Browser while searching
         self.pending_link = None    # link waiting for the start message
+        self.pending_host = None    # host link waiting for the client's hello
         self.session = None         # lockstep.NetSession over the network
         self.bug_mode = False
         self.bug_text = ""
@@ -264,7 +265,8 @@ class App(object):
         world, problem = self.make_world(self.seed)
         self.game = Game(world, difficulty=diff, fog_enabled=self.menu.fog,
                          audio=self.audio if self.menu.sound else None,
-                         layout=self.layout)
+                         layout=self.layout, faction=self.menu.faction_id())
+        sprites.set_team_colors([p.color for p in self.game.players])
         self.hud = HUD(self.game, self.fonts)
         self.renderer = WorldRenderer(self.game)
         self.game.camera.edge_scroll = self.edge_scroll
@@ -413,6 +415,9 @@ class App(object):
         if self.pending_link is not None:
             self.pending_link.close()
             self.pending_link = None
+        if self.pending_host is not None:
+            self.pending_host["link"].close()
+            self.pending_host = None
 
     def start_hosting(self):
         self.close_net()
@@ -452,11 +457,30 @@ class App(object):
             world, _problem = self.make_world(seed)
             start = {"type": "start", "protocole": net.PROTOCOL,
                      "seed": seed, "size": world.w, "fog": self.menu.fog,
-                     "team": 1}
+                     "team": 1, "faction": self.menu.faction_id()}
             if world.name:              # drawn in the editor: send it whole
                 start["map"] = mapfile.to_text(world)
             link.send(start)
-            self.start_network_game(link, 0, world, self.menu.fog)
+            # Wait for the client's hello (its faction) before starting, so
+            # both sides paint the opponent in the clan it really chose.
+            self.pending_host = {"link": link, "world": world,
+                                 "fog": self.menu.fog}
+            return
+        if self.pending_host is not None:
+            link = self.pending_host["link"]
+            if not link.alive:
+                self.lan.message = i18n.t("lan.link_lost")
+                link.close()
+                self.pending_host = None
+                return
+            hello = link.recv()        # exactly one message; orders stay queued
+            if hello is None:
+                return
+            pending = self.pending_host
+            self.pending_host = None
+            self.start_network_game(link, 0, pending["world"], pending["fog"],
+                                    enemy_faction=hello.get("faction")
+                                    if isinstance(hello, dict) else None)
             return
         if self.pending_link is not None:
             if not self.pending_link.alive:
@@ -481,8 +505,13 @@ class App(object):
                     self.lan.message = i18n.t("lan.bad_map", error=exc)
                     link.close()
                     return
+                # Answer with our faction before the session takes the link,
+                # so the host can paint us in the right clan.
+                link.send({"type": "hello",
+                           "faction": self.menu.faction_id()})
                 self.start_network_game(link, int(msg.get("team", 1)),
-                                        world, bool(msg.get("fog", True)))
+                                        world, bool(msg.get("fog", True)),
+                                        enemy_faction=msg.get("faction"))
                 return
 
     @staticmethod
@@ -493,13 +522,16 @@ class App(object):
             return mapfile.from_text(msg["map"])
         return World(int(msg["seed"]), int(msg.get("size", DEFAULT_MAP_SIZE)))
 
-    def start_network_game(self, link, team, world, fog):
+    def start_network_game(self, link, team, world, fog, enemy_faction=None):
         """Start the shared game: the same map, one side per machine."""
         self.close_net()
         self.seed = world.seed
         self.game = Game(world, difficulty="tomcat", fog_enabled=fog,
                          audio=self.audio if self.menu.sound else None,
-                         layout=self.layout, local_team=team, use_ai=False)
+                         layout=self.layout, local_team=team, use_ai=False,
+                         faction=self.menu.faction_id(),
+                         enemy_faction=enemy_faction)
+        sprites.set_team_colors([p.color for p in self.game.players])
         self.hud = HUD(self.game, self.fonts)
         self.renderer = WorldRenderer(self.game)
         self.game.camera.edge_scroll = self.edge_scroll

@@ -124,10 +124,21 @@
     "0": "Clan Moustache",
     "1": "Horde Chartreux"
   },
+  "factions": {
+    "whiskers": { "name": "Clan Moustache" },
+    "chartreux": { "name": "Horde Chartreux" },
+    "couch": { "name": "Clan des Divans" },
+    "moon": { "name": "Faction de la Lune" },
+    "sun": { "name": "Empire du Soleil" },
+    "scratch": { "name": "Ordre du Griffoir" },
+    "league": { "name": "Ligue des Matous" },
+    "gingers": { "name": "Syndicat des Roux" }
+  },
   "menu": {
     "title": "PURR-TAGE : LA GUERRE DES CHATS",
     "subtitle": "Un RTS félin : récoltez, bâtissez, griffez.",
     "play": "Jouer en solo",
+    "faction": "Faction : {value}",
     "lan": "Multijoueur (réseau local)",
     "options": "Options",
     "help": "Aide",

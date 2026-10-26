@@ -586,6 +586,9 @@ class MapEditor(object):
 
     # ------------------------------------------------------------------ draw --
     def draw(self, screen):
+        # The editor shows both start baskets: keep the default team palette,
+        # whatever clan the menu was previewing.
+        sprites.set_team_colors(TEAM_COLORS)
         cam = self.camera
         rnd = self.renderer
         scene = rnd._get_scene(cam)

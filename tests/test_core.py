@@ -151,8 +151,8 @@ class TestMenuLayout(unittest.TestCase):
         fonts = load_fonts(layout.scale)
         menu = screens.MainMenu(fonts, layout)
         self.assertEqual(set(menu.buttons),
-                         {"play", "map", "lan", "options", "editor", "help",
-                          "quit"})
+                         {"play", "map", "faction", "lan", "options", "editor",
+                          "help", "quit"})
         options = screens.OptionsScreen(fonts, layout, menu)
         for key in ("diff", "res", "full", "fog", "sound", "edge", "back"):
             self.assertIn(key, options.buttons)
